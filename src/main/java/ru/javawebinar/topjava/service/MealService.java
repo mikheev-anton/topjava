@@ -10,7 +10,7 @@ import java.util.List;
 public interface MealService {
     Meal readById(int id);
     Meal updateById(LocalDateTime dateTime, String description, int calories, int id);
-    Meal create(LocalDateTime dateTime, String description, int calories);
+    Meal createAndAdd(LocalDateTime dateTime, String description, int calories);
     void deleteById(int id);
     Collection<Meal> getAll();
     void addAll(Collection<Meal> collection);

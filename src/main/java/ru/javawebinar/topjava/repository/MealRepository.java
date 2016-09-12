@@ -10,4 +10,5 @@ public interface MealRepository<T, KEY extends Serializable> {
     void update(T t);
     void delete(KEY key);
     Collection<T> getAll();
+    KEY getKey();
 }

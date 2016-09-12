@@ -14,9 +14,9 @@ public class ListRepositoryImp implements MealRepository<Meal, Integer> {
 
     private final List<Meal> meals = new  CopyOnWriteArrayList();
 
-    private Queue<Integer> queueOfFreeId = new ConcurrentLinkedQueue();
+    private final Queue<Integer> queueOfFreeId = new ConcurrentLinkedQueue();
 
-    private AtomicInteger counter = new AtomicInteger();
+    private final AtomicInteger counter = new AtomicInteger();
 
     public static ListRepositoryImp getInstance() {
         if (ourInstance==null){
@@ -36,7 +36,6 @@ public class ListRepositoryImp implements MealRepository<Meal, Integer> {
             meals.set(meals.indexOf(meal),meal);
         }
         else{
-            meal.setId(getKey());
             meals.add(meal);
         }
     }
@@ -54,7 +53,8 @@ public class ListRepositoryImp implements MealRepository<Meal, Integer> {
         return Collections.unmodifiableList(meals);
     }
 
-    private Integer getKey() {
+    @Override
+    public Integer getKey() {
 
         if (queueOfFreeId.isEmpty())
             return counter.incrementAndGet();
@@ -62,5 +62,4 @@ public class ListRepositoryImp implements MealRepository<Meal, Integer> {
         else
             return queueOfFreeId.poll();
     }
-
 }

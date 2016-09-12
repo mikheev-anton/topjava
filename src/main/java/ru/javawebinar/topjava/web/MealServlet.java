@@ -30,8 +30,8 @@ public class MealServlet extends HttpServlet {
 
         String action = req.getParameter("action");
 
-        if (action!=null)
-            switch (action){
+        if (action != null)
+            switch (action) {
                 case "delete":
                     int id = Integer.parseInt(req.getParameter("id"));
                     service.deleteById(id);
@@ -40,19 +40,19 @@ public class MealServlet extends HttpServlet {
                 case "edit":
                     idForEdit = Integer.parseInt(req.getParameter("id"));
                     req.setAttribute("mealForEdit", service.readById(idForEdit));
-                    req.getRequestDispatcher("editMeal.jsp").forward(req,resp);
+                    req.getRequestDispatcher("editMeal.jsp").forward(req, resp);
                     break;
             }
 
         List<MealWithExceed> allExceedMeal = MealsUtil.getFilteredWithExceeded(service.getAll(), LocalTime.MIN, LocalTime.MAX, 2000);
         req.setAttribute("mealList", allExceedMeal);
-        req.getRequestDispatcher("mealList.jsp").forward(req,resp);
+        req.getRequestDispatcher("mealList.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType ("text/html; charset=UTF-8");
-        req.setCharacterEncoding ("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
+        req.setCharacterEncoding("UTF-8");
 
         int calories = Integer.parseInt(req.getParameter("cal"));
         LocalDateTime dateTime = LocalDateTime.parse(req.getParameter("date"));
@@ -60,9 +60,10 @@ public class MealServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         if (action.equals("edit"))
-            service.updateById(dateTime, req.getParameter("desc"),calories, idForEdit);
+            service.updateById(dateTime, req.getParameter("desc"), calories, idForEdit);
         else if (action.equals("add"))
-            service.create(dateTime, req.getParameter("desc"),calories);
+            service.createAndAdd(dateTime, req.getParameter("desc"), calories);
+
         resp.sendRedirect("meal");
     }
 }

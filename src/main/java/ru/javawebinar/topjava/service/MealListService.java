@@ -15,12 +15,12 @@ public class MealListService implements MealService {
 
     public MealListService() {
         addAll(Arrays.asList(
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
+                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500,repository.getKey()),
+                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000,repository.getKey()),
+                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500,repository.getKey()),
+                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000,repository.getKey()),
+                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500,repository.getKey()),
+                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510,repository.getKey())
         ));
     }
 
@@ -34,16 +34,15 @@ public class MealListService implements MealService {
 
     @Override
     public Meal updateById(LocalDateTime dateTime, String description, int calories, int id) {
-        Meal meal = new Meal(dateTime, description, calories);
-        meal.setId(id);
+        Meal meal = new Meal(dateTime, description, calories,id);
         repository.update(meal);
         return meal;
     }
 
 
     @Override
-    public Meal create(LocalDateTime dateTime, String description, int calories) {
-        Meal meal = new Meal(dateTime,description,calories);
+    public Meal createAndAdd(LocalDateTime dateTime, String description, int calories) {
+        Meal meal = new Meal(dateTime,description,calories,repository.getKey());
         repository.update(meal);
         return meal;
     }
@@ -62,6 +61,6 @@ public class MealListService implements MealService {
 
     @Override
     public void addAll(Collection<Meal> collection) {
-        collection.stream().peek(meal -> create(meal.getDateTime(),meal.getDescription(),meal.getCalories())).count();
+        collection.stream().peek(repository::update).count();
     }
 }
