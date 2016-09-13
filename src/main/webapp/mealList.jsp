@@ -61,6 +61,7 @@
             <input type="datetime-local"
                    placeholder="Дата"
                    name="date"
+                   value="${defDate}"
                    required
             >
         </p>

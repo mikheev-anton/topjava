@@ -1,9 +1,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>123</title>
+    <title>Edit meal</title>
 </head>
 <body>
 <div>
@@ -34,15 +35,15 @@
                                            value="${me.calories}"
                                            required>
         </p>
-
         <p>
             <label>Дата: </label><input type="datetime-local"
-                                        placeholder="${fn:replace(me.dateTime,'T', ' ')}"
+                                        placeholder="dd.MM.yyyy'T'HH:mm"
                                         required
-                                        name="date">
+                                        name="date"
+                                        value="${me.dateTime}">
         </p>
         <p>
-            <input value="Добавить" type="submit"> <input value="Отчистить" type="reset">
+            <input value="Исправить" type="submit">
         </p>
     </form>
 </div>

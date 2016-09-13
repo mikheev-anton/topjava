@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -43,7 +45,7 @@ public class MealServlet extends HttpServlet {
                     req.getRequestDispatcher("editMeal.jsp").forward(req, resp);
                     break;
             }
-
+        req.setAttribute("defDate", LocalDateTime.now());
         List<MealWithExceed> allExceedMeal = MealsUtil.getFilteredWithExceeded(service.getAll(), LocalTime.MIN, LocalTime.MAX, 2000);
         req.setAttribute("mealList", allExceedMeal);
         req.getRequestDispatcher("mealList.jsp").forward(req, resp);
