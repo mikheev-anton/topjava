@@ -41,7 +41,7 @@ public class UserServiceTest {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", 1555, false, Collections.singleton(Role.ROLE_USER));
         User created = service.save(newUser);
         newUser.setId(created.getId());
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, newUser, USER), service.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, newUser,NIKITA, USER), service.getAll());
     }
 
     @Test(expected = DataAccessException.class)
@@ -52,7 +52,7 @@ public class UserServiceTest {
     @Test
     public void testDelete() throws Exception {
         service.delete(USER_ID);
-        MATCHER.assertCollectionEquals(Collections.singletonList(ADMIN), service.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, NIKITA), service.getAll());
     }
 
     @Test(expected = NotFoundException.class)
@@ -80,7 +80,7 @@ public class UserServiceTest {
     @Test
     public void testGetAll() throws Exception {
         Collection<User> all = service.getAll();
-        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, USER), all);
+        MATCHER.assertCollectionEquals(Arrays.asList(ADMIN, NIKITA, USER), all);
     }
 
     @Test

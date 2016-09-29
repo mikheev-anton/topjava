@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -46,6 +47,6 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        return repository.save(meal, userId);
+        return ExceptionUtil.checkNotFoundWithId(repository.save(meal, userId), userId);
     }
 }
