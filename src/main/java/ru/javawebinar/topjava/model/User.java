@@ -6,10 +6,12 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,6 +25,7 @@ import java.util.Set;
 })
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
+//@NamedEntityGraph(name = "userWithMeal", attributeNodes = {@NamedAttributeNode(value = "userMeal")})
 public class User extends NamedEntity {
 
     public static final String DELETE = "User.delete";
@@ -54,6 +57,9 @@ public class User extends NamedEntity {
     @Column(name = "calories_per_day", columnDefinition = "default 2000")
     @Digits(fraction = 0, integer = 4)
     private int caloriesPerDay = MealsUtil.DEFAULT_CALORIES_PER_DAY;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Meal> userMeal;
 
     public User() {
     }
@@ -117,6 +123,14 @@ public class User extends NamedEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Meal> getUserMeal() {
+        return userMeal;
+    }
+
+    public void setUserMeal(List<Meal> userMeal) {
+        this.userMeal = userMeal;
     }
 
     @Override

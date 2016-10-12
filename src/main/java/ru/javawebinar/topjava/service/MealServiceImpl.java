@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * GKislin
@@ -52,5 +53,10 @@ public class MealServiceImpl implements MealService {
     public Meal save(Meal meal, int userId) {
         Assert.notNull(meal, "meal must not be null");
         return repository.save(meal, userId);
+    }
+
+    @Override
+    public List<Meal> getAllWithUser(int userId) {
+        return (List<Meal>) repository.getAllWithUser(userId);
     }
 }

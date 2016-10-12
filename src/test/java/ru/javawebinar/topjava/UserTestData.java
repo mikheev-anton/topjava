@@ -4,6 +4,7 @@ import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
@@ -19,6 +20,15 @@ public class UserTestData {
     public static final User USER = new User(USER_ID, "User", "user@yandex.ru", "password", Role.ROLE_USER);
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
 
+    public static final User ADMIN_WITH_MEAL = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
+
+    static {
+        ADMIN_WITH_MEAL.setUserMeal(Arrays.asList(
+                MealTestData.ADMIN_MEAL1,
+                MealTestData.ADMIN_MEAL2
+        ));
+    }
+
     public static final ModelMatcher<User> MATCHER = new ModelMatcher<>(
             (expected, actual) -> expected == actual ||
                     (Objects.equals(expected.getPassword(), actual.getPassword())
@@ -27,6 +37,7 @@ public class UserTestData {
                             && Objects.equals(expected.getEmail(), actual.getEmail())
                             && Objects.equals(expected.getCaloriesPerDay(), actual.getCaloriesPerDay())
                             && Objects.equals(expected.isEnabled(), actual.isEnabled())
+//                            && Objects.equals(expected.getUserMeal(), actual.getUserMeal())
 //                            && Objects.equals(expected.getRoles(), actual.getRoles())
                     )
     );

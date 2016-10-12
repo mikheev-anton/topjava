@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -28,4 +29,6 @@ public interface MealService {
     Meal update(Meal meal, int userId) throws NotFoundException;
 
     Meal save(Meal meal, int userId);
+
+    Collection<Meal> getAllWithUser(int userId);
 }
