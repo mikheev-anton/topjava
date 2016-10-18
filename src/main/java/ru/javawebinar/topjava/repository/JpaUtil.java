@@ -21,5 +21,6 @@ public class JpaUtil {
         sf.getCache().evictDefaultQueryRegion();
         sf.getCache().evictCollectionRegions();
         sf.getCache().evictEntityRegions();
+        sf.getCache().evictAll();
     }
 }
