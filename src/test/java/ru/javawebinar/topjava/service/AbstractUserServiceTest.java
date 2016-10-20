@@ -7,7 +7,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.repository.JpaUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -21,13 +20,9 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Autowired
     protected UserService service;
 
-    @Autowired
-    protected JpaUtil jpaUtil;
-
     @Before
     public void setUp() throws Exception {
         service.evictCache();
-        jpaUtil.clear2ndLevelHibernateCache();
     }
         
     @Test
@@ -56,8 +51,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGet() throws Exception {
-        User user = service.get(USER_ID);
-        MATCHER.assertEquals(USER, user);
+        User user = service.get(ADMIN_ID);
+        MATCHER.assertEquals(ADMIN, user);
     }
 
     @Test(expected = NotFoundException.class)
@@ -67,8 +62,8 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
     @Test
     public void testGetByEmail() throws Exception {
-        User user = service.getByEmail("user@yandex.ru");
-        MATCHER.assertEquals(USER, user);
+        User user = service.getByEmail("admin@gmail.com");
+        MATCHER.assertEquals(ADMIN, user);
     }
 
     @Test
@@ -82,6 +77,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         User updated = new User(USER);
         updated.setName("UpdatedName");
         updated.setCaloriesPerDay(330);
+        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
         service.update(updated);
         MATCHER.assertEquals(updated, service.get(USER_ID));
     }
