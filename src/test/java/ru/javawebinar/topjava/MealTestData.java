@@ -2,6 +2,7 @@ package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealWithExceed;
 
 import java.time.Month;
 import java.util.Arrays;
@@ -16,14 +17,17 @@ import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
  */
 public class MealTestData {
 
-    public static final ModelMatcher<Meal> MATCHER = new ModelMatcher<>(Meal.class);
+    public static final ModelMatcher<Meal> MATCHER = ModelMatcher.of(Meal.class);
+    public static final ModelMatcher<MealWithExceed> MATCHER_WITH_EXCEED = ModelMatcher.of(MealWithExceed.class);
 
     public static final int MEAL1_ID = START_SEQ + 2;
+    public static final int MEAL2_ID = START_SEQ + 3;
+    public static final int MEAL3_ID = START_SEQ + 4;
     public static final int ADMIN_MEAL_ID = START_SEQ + 8;
 
     public static final Meal MEAL1 = new Meal(MEAL1_ID, of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500);
-    public static final Meal MEAL2 = new Meal(MEAL1_ID + 1, of(2015, Month.MAY, 30, 13, 0), "Обед", 1000);
-    public static final Meal MEAL3 = new Meal(MEAL1_ID + 2, of(2015, Month.MAY, 30, 20, 0), "Ужин", 500);
+    public static final Meal MEAL2 = new Meal(MEAL2_ID, of(2015, Month.MAY, 30, 13, 0), "Обед", 1000);
+    public static final Meal MEAL3 = new Meal(MEAL3_ID, of(2015, Month.MAY, 30, 20, 0), "Ужин", 500);
     public static final Meal MEAL4 = new Meal(MEAL1_ID + 3, of(2015, Month.MAY, 31, 10, 0), "Завтрак", 500);
     public static final Meal MEAL5 = new Meal(MEAL1_ID + 4, of(2015, Month.MAY, 31, 13, 0), "Обед", 1000);
     public static final Meal MEAL6 = new Meal(MEAL1_ID + 5, of(2015, Month.MAY, 31, 20, 0), "Ужин", 510);
