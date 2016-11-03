@@ -31,17 +31,17 @@
                     </thead>
                     <c:forEach items="${users}" var="user">
                         <jsp:useBean id="user" scope="page" type="ru.javawebinar.topjava.model.User"/>
-                        <tr>
+                        <tr id="${user.id}">
                             <td><c:out value="${user.name}"/></td>
                             <td><a href="mailto:${user.email}">${user.email}</a></td>
                             <td>${user.roles}</td>
                             <td>
                                 <input type="checkbox"
-                                       <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/>
+                                       <c:if test="${user.enabled}">checked</c:if> id="${user.id}" onclick="enable($(this))"/>
                             </td>
                             <td><fmt:formatDate value="${user.registered}" pattern="dd-MMMM-yyyy"/></td>
-                            <td><a class="btn btn-xs btn-primary edit" id="${user.id}"><fmt:message key="common.update"/></a></td>
-                            <td><a class="btn btn-xs btn-danger delete" id="${user.id}"><fmt:message key="common.delete"/></a></td>
+                            <td><a class="btn btn-xs btn-primary edit"><fmt:message key="common.update"/></a></td>
+                            <td><a class="btn btn-xs btn-danger delete"><fmt:message key="common.delete"/></a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -107,9 +107,15 @@
     var ajaxUrl = 'ajax/admin/users/';
     var datatableApi;
 
+    function updateTable(){
+        $.get(ajaxUrl, function (data) {
+          updateTableByData(data);
+        });
+    }
+
     // $(document).ready(function () {
     $(function () {
-        datatableApi = $('#datatable').dataTable({
+        datatableApi = $('#datatable').DataTable({
             "bPaginate": false,
             "bInfo": false,
             "aoColumns": [
