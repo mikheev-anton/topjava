@@ -61,7 +61,7 @@
                     </tr>
                     </thead>
                     <c:forEach items="${meals}" var="meal">
-                        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
+                        <%--<jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>--%>
                         <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
                             <td>
                                     <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
@@ -133,6 +133,7 @@
                                    placeholder="1000">
                         </div>
                     </div>
+                    <input type="hidden" id="exceed" name="exceed">
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <button class="btn btn-primary" type="button" onclick="save()"><fmt:message key="common.save"/></button>

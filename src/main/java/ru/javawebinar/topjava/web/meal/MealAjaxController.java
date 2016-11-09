@@ -24,6 +24,11 @@ public class MealAjaxController extends AbstractMealController {
         return super.getAll();
     }
 
+    @GetMapping(value = "/{id}")
+    public Meal get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
+
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
@@ -33,7 +38,9 @@ public class MealAjaxController extends AbstractMealController {
     public void updateOrCreate(@RequestParam("id") Integer id,
                                @RequestParam("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime,
                                @RequestParam("description") String description,
-                               @RequestParam("calories") int calories) {
+                               @RequestParam("calories") int calories,
+                               @RequestParam("exceed") String exceed) {
+        String exceed1 = exceed;
         Meal meal = new Meal(id, dateTime, description, calories);
         if (meal.isNew()) {
             super.create(meal);
