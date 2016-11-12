@@ -86,7 +86,7 @@ $(function () {
         lang:'ru'
     });
     $('#dateTime').datetimepicker({
-        format : 'Y-m-d//TH:i',
+        format : 'Y-m-d H:i',
         lang : 'ru'
     });
 });
