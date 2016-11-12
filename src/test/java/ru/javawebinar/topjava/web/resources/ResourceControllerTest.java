@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.javawebinar.topjava.TestUtil.userHttpBasic;
+import static ru.javawebinar.topjava.UserTestData.USER;
 
 public class ResourceControllerTest extends AbstractControllerTest {
 
@@ -15,7 +17,7 @@ public class ResourceControllerTest extends AbstractControllerTest {
     public void testCss()throws Exception{
         mockMvc.perform(get("meals"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().is(302));
 //                .andExpect(content().)
     }
 }

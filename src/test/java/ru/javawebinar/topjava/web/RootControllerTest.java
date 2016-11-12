@@ -35,6 +35,14 @@ public class RootControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testMlAuth() throws Exception {
+        mockMvc.perform(get("/meals"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
     public void testMeals() throws Exception {
         mockMvc.perform(get("/meals")
                 .with(userAuth(USER)))

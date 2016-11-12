@@ -1,3 +1,4 @@
+
 var form;
 
 function makeEditable() {
@@ -11,6 +12,7 @@ function add(add_title) {
     $('#modalTitle').html(add_title);
     form.find(":input").val("");
     $('#editRow').modal();
+
 }
 
 function updateRow(id) {
@@ -91,6 +93,8 @@ function failNoty(event, jqXHR, options, jsExc) {
         layout: 'bottomRight'
     });
 }
+
+//function cssCha
 
 function renderEditBtn(data, type, row) {
     if (type == 'display') {

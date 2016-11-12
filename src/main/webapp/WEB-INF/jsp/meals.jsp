@@ -18,7 +18,8 @@
             <div class="view-box">
                 <form method="post" class="form-horizontal" role="form" id="filter">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="startDate"><fmt:message key="meals.startDate"/>:</label>
+                        <label class="control-label col-sm-2" for="startDate"><fmt:message
+                                key="meals.startDate"/>:</label>
 
                         <div class="col-sm-2">
                             <input class="form-control" type="date" name="startDate" id="startDate">
@@ -31,7 +32,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="startTime"><fmt:message key="meals.startTime"/>:</label>
+                        <label class="control-label col-sm-2" for="startTime"><fmt:message
+                                key="meals.startTime"/>:</label>
 
                         <div class="col-sm-2">
                             <input class="form-control" type="time" name="startTime" id="startTime">
@@ -45,7 +47,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-8">
-                            <button class="btn btn-primary pull-right"  type="button" onclick="updateTable()"><fmt:message key="meals.filter"/></button>
+                            <button class="btn btn-primary pull-right" type="button" onclick="updateTable()">
+                                <fmt:message key="meals.filter"/></button>
                         </div>
                     </div>
                 </form>
@@ -60,41 +63,11 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <c:forEach items="${meals}" var="meal">
-                        <%--<jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>--%>
-                        <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
-                            <td>
-                                    <%--<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>--%>
-                                    <%--<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />--%>
-                                    ${fn:formatDateTime(meal.dateTime)}
-                            </td>
-                            <td>${meal.description}</td>
-                            <td>${meal.calories}</td>
-                            <td><a class="btn btn-xs btn-primary"><fmt:message key="common.update"/></a></td>
-                            <td><a class="btn btn-xs btn-danger" onclick="deleteRow(${meal.id})"><fmt:message key="common.delete"/></a></td>
-                        </tr>
-                    </c:forEach>
                 </table>
             </div>
         </div>
     </div>
 </div>
-        <c:forEach items="${mealList}" var="meal">
-            <%--<jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>--%>
-            <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
-                <td>
-                        <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
-                        <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
-                        ${fn:formatDateTime(meal.dateTime)}
-                </td>
-                <td>${meal.description}</td>
-                <td>${meal.calories}</td>
-                <td><a href="meals/update?id=${meal.id}"><fmt:message key="common.update"/></a></td>
-                <td><a href="meals/delete?id=${meal.id}"><fmt:message key="common.delete"/></a></td>
-            </tr>
-        </c:forEach>
-    </table>
-</section>
 <jsp:include page="fragments/footer.jsp"/>
 
 <div class="modal fade" id="editRow">
@@ -134,9 +107,11 @@
                         </div>
                     </div>
                     <input type="hidden" id="exceed" name="exceed">
+
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button class="btn btn-primary" type="button" onclick="save()"><fmt:message key="common.save"/></button>
+                            <button class="btn btn-primary" type="button" onclick="save()"><fmt:message
+                                    key="common.save"/></button>
                         </div>
                     </div>
                 </form>
@@ -151,50 +126,12 @@
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script type="text/javascript" src="resources/js/datatablesUtil.js"></script>
+<script type="text/javascript" src="resources/js/mealDatatables.js"></script>
 <script type="text/javascript">
-    var ajaxUrl = 'ajax/profile/meals/';
-    var datatableApi;
-
-    function updateTable() {
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl + 'filter',
-            data: $('#filter').serialize(),
-            success: updateTableByData
-        });
-    }
-
-    $(function () {
-        datatableApi = $('#datatable').DataTable({
-            "paging": false,
-            "info": true,
-            "columns": [
-                {
-                    "data": "dateTime"
-                },
-                {
-                    "data": "description"
-                },
-                {
-                    "data": "calories"
-                },
-                {
-                    "defaultContent": "<fmt:message key="common.update"/>",
-                    "orderable": false
-                },
-                {
-                    "defaultContent": "<fmt:message key="common.delete"/>",
-                    "orderable": false
-                }
-            ],
-            "order": [
-                [
-                    0,
-                    "desc"
-                ]
-            ]
-        });
-        makeEditable();
-    });
+    var i18n = [];
+    <c:forEach var='key' items='<%=new String[]{"common.update","common.delete","common.deleted","common.saved","common.enabled","common.disabled","common.failed"}%>'>
+    i18n['${key}'] = '<fmt:message key="${key}"/>';
+    </c:forEach>
+    var edit_title ='<fmt:message key="users.edit"/>';
 </script>
 </html>
