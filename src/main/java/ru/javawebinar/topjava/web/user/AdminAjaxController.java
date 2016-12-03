@@ -1,5 +1,10 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContext;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,9 @@ import java.util.List;
 @RequestMapping("/ajax/admin/users")
 public class AdminAjaxController extends AbstractUserController {
 
+    @Autowired
+    private MessageSource source;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
         return super.getAll();
@@ -34,18 +42,17 @@ public class AdminAjaxController extends AbstractUserController {
         super.delete(id);
     }
 
-    @PostMapping
-    public ResponseEntity<String> createOrUpdate(@Valid UserTo userTo, BindingResult result) {
-        if (result.hasErrors()) {
-            // TODO change to exception handler
-            StringBuilder sb = new StringBuilder();
-            result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-            return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-        if (userTo.isNew()) {
-            super.create(UserUtil.createNewFromTo(userTo));
-        } else {
-            super.update(userTo);
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<String> createOrUpdate(@Valid @RequestBody UserTo userTo) {
+
+        try {
+            if (userTo.isNew()) {
+                super.create(UserUtil.createNewFromTo(userTo));
+            } else {
+                super.update(userTo);
+            }
+        }catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException(source.getMessage("exception.email_duplicate", null, LocaleContextHolder.getLocale()));
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
